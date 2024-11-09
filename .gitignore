@@ -27,12 +27,6 @@ Thumbs.db
 .vscode/
 .idea/
 
-# Docker
-# Ignore Docker-related files
-Dockerfile
-docker-compose.yml
-*.dockerfile
-.dockerignore
 
 # Terraform
 *.tfstate
