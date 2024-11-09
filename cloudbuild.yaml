@@ -11,13 +11,13 @@ steps:
       [
         "build",
         "-t",
-        "us-central1-docker.pkg.dev/dalprojects/k8s/outercontainer:v2",
+        "us-central1-docker.pkg.dev/dalprojects/k8s/outercontainer:v1",
         ".",
       ]
     id: "build docker image"
   - name: "gcr.io/cloud-builders/docker"
     args:
-      ["push", "us-central1-docker.pkg.dev/dalprojects/k8s/outercontainer:v2"]
+      ["push", "us-central1-docker.pkg.dev/dalprojects/k8s/outercontainer:v1"]
     id: "push docker image"
     #deploy the container to GKE
   - name: "gcr.io/cloud-builders/gke-deploy"
