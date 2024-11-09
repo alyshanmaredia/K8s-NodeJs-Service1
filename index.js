@@ -99,17 +99,11 @@ app.post("/calculate", async (req, res) => {
 
 		res.status(200).json(response.data);
 	} catch (error) {
-		if (error instanceof SyntaxError) {
-			return res.status(400).json({
-				file: file,
-				error: "Input file not in JSON format.",
-			});
-		}
-
-		console.error("Error calling Container 2:", error.message);
-		res
-			.status(500)
-			.json({ error: "Error while contacting Container 2 for calculation." });
+		console.log(error);
+		res.status(400).json({
+			file,
+			error: "Input file not in CSV format.",
+		});
 	}
 });
 
