@@ -26,28 +26,22 @@ app.post("/process-data", async (req, res) => {
 		);
 
 		if (response.status === 200) {
-			res
-				.status(200)
-				.json({
-					message: "Request reached Container 2 successfully",
-					data: response.data,
-				});
+			res.status(200).json({
+				message: "Request reached Container 2 successfully",
+				data: response.data,
+			});
 		} else {
-			res
-				.status(500)
-				.json({
-					error: "Failed to reach Container 2",
-					message: "Error in communication with Container 2",
-				});
+			res.status(500).json({
+				error: "Failed to reach Container 2",
+				message: "Error in communication with Container 2",
+			});
 		}
 	} catch (error) {
 		console.error("Error calling Container 2:", error.message);
-		res
-			.status(500)
-			.json({
-				error: "Error reached only Container 1",
-				message: "Could not reach Container 2",
-			});
+		res.status(500).json({
+			error: "Error reached only Container 1",
+			message: "Could not reach Container 2",
+		});
 	}
 });
 
