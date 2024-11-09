@@ -13,7 +13,6 @@ if (!fs.existsSync(STORAGE_PATH)) {
 	fs.mkdirSync(STORAGE_PATH);
 }
 
-//modifieds
 app.post("/process-data", async (req, res) => {
 	try {
 		const response = await axios.post(
@@ -85,10 +84,6 @@ app.post("/calculate", async (req, res) => {
 	}
 
 	try {
-		const fileContent = fs.readFileSync(filePath, "utf8");
-
-		const parsedContent = JSON.parse(fileContent);
-
 		const response = await axios.post(
 			`http://processorcontainer:7000/calculate-sum`,
 			{
@@ -99,7 +94,7 @@ app.post("/calculate", async (req, res) => {
 
 		res.status(200).json(response.data);
 	} catch (error) {
-		console.log(error);
+		console.error("Error calling Container 2:", error.message);
 		res.status(400).json({
 			file,
 			error: "Input file not in CSV format.",
