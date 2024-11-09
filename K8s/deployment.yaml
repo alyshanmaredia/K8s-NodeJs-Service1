@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: outercontainer
-          image: us-central1-docker.pkg.dev/dalprojects/k8s/outercontainer:v2
+          image: us-central1-docker.pkg.dev/dalprojects/k8s/outercontainer:v0
           ports:
             - containerPort: 6000
           volumeMounts:
