@@ -52,10 +52,13 @@ app.post("/calculate", async (req, res) => {
 	}
 
 	try {
-		const response = await axios.post(`http://processor:7000/calculate-sum`, {
-			file,
-			product,
-		});
+		const response = await axios.post(
+			`http://processorcontainer-service:7000/calculate-sum`,
+			{
+				file,
+				product,
+			}
+		);
 
 		res.status(200).json(response.data);
 	} catch (error) {
