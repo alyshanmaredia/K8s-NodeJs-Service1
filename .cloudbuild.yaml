@@ -1,0 +1,42 @@
+steps:
+  # Install dependencies and build using npm
+  - name: "node:14"
+    entrypoint: "npm"
+    args: ["install"]
+    id: "install dependencies"
+
+  # Build and push Docker image
+  - name: "gcr.io/cloud-builders/docker"
+    args:
+      [
+        "build",
+        "-t",
+        "us-central1-docker.pkg.dev/dalprojects/k8s/outercontainer:v1",
+        ".",
+      ]
+    id: "build docker image"
+  - name: "gcr.io/cloud-builders/docker"
+    args:
+      ["push", "us-central1-docker.pkg.dev/dalprojects/k8s/outercontainer:v1"]
+    id: "push docker image"
+
+  # Deploy the latest build to Kubernetes
+  - name: "gcr.io/cloud-builders/kubectl"
+    args:
+      - "delete"
+      - "deployment.apps/outercontainer"
+      - "--ignore-not-found"
+    env:
+      - "CLOUDSDK_COMPUTE_ZONE=us-central1"
+      - "CLOUDSDK_CONTAINER_CLUSTER=cluster-2"
+    id: "clear old deployment"
+  - name: "gcr.io/cloud-builders/gke-deploy"
+    args:
+      - "run"
+      - "--filename=./K8s/"
+      - "--location=us-central1"
+      - "--cluster=cluster-2"
+    id: "deploy new build"
+
+options:
+  logging: CLOUD_LOGGING_ONLY

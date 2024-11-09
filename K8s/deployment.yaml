@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: outercontainer
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: outercontainer
+  template:
+    metadata:
+      labels:
+        app: outercontainer
+    spec:
+      containers:
+        - name: outercontainer
+          image: us-central1-docker.pkg.dev/dalprojects/k8s/outercontainer:v1
+          ports:
+            - containerPort: 6000
+          volumeMounts:
+            - name: a3-volume
+              mountPath: /ali_PV_dir
+      volumes:
+        - name: a3-volume
+          persistentVolumeClaim:
+            claimName: a3-pvc
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: outercontainer
+spec:
+  type: LoadBalancer
+  selector:
+    app: outercontainer
+  ports:
+    - port: 80
+      targetPort: 6000

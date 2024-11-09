@@ -7,7 +7,7 @@ const PORT = process.env.PORT || 6000;
 
 app.use(express.json());
 
-const STORAGE_PATH = path.join(__dirname, "files");
+const STORAGE_PATH = path.join("/ali_PV_dir");
 
 if (!fs.existsSync(STORAGE_PATH)) {
 	fs.mkdirSync(STORAGE_PATH);
