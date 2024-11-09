@@ -13,6 +13,10 @@ if (!fs.existsSync(STORAGE_PATH)) {
 	fs.mkdirSync(STORAGE_PATH);
 }
 
+app.post("/test", (req, res) => {
+	return res.status(200).json({ message: "Hello World" });
+});
+
 app.post("/store-file", (req, res) => {
 	const { file, data } = req.body;
 
