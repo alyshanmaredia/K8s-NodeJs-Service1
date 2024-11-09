@@ -5,7 +5,7 @@ steps:
     args: ["install"]
     id: "install dependencies"
 
-  # Build and push Docker image
+  # Build and push Docker image.
   - name: "gcr.io/cloud-builders/docker"
     args:
       [
