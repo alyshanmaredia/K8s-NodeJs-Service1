@@ -84,29 +84,28 @@ app.post("/calculate", async (req, res) => {
 		return res.status(404).json({ file, error: "File not found." });
 	}
 
-	if (!file.endsWith(".csv")) {
-		return res.status(400).json({
-			file: file,
-			error: "Input file not in CSV format.",
-		});
-	}
-
 	try {
+		const fileContent = fs.readFileSync(filePath, "utf8");
+
+		const parsedContent = JSON.parse(fileContent);
+
 		const response = await axios.post(
 			`http://processorcontainer:7000/calculate-sum`,
 			{
 				file,
 				product,
-			},
-			{
-				headers: {
-					"Content-Type": "application/json",
-				},
 			}
 		);
 
 		res.status(200).json(response.data);
 	} catch (error) {
+		if (error instanceof SyntaxError) {
+			return res.status(400).json({
+				file: file,
+				error: "Input file not in JSON format.",
+			});
+		}
+
 		console.error("Error calling Container 2:", error.message);
 		res
 			.status(500)
