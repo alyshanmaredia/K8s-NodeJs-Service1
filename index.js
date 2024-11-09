@@ -45,7 +45,6 @@ app.post("/process-data", async (req, res) => {
 	}
 });
 
-//modified
 app.post("/test", (req, res) => {
 	return res.status(200).json({ message: "Hello World" });
 });
