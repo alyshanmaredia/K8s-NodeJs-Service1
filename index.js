@@ -83,6 +83,13 @@ app.post("/calculate", async (req, res) => {
 		return res.status(404).json({ file, error: "File not found." });
 	}
 
+	if (!file.endsWith(".csv")) {
+		return res.status(400).json({
+			file: file,
+			error: "Input file not in CSV format.",
+		});
+	}
+
 	try {
 		const response = await axios.post(
 			`http://processorcontainer:7000/calculate-sum`,
