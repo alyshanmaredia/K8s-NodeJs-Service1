@@ -13,6 +13,7 @@ if (!fs.existsSync(STORAGE_PATH)) {
 	fs.mkdirSync(STORAGE_PATH);
 }
 
+//End point to check if connection is established with processor endpoint.
 app.post("/process-data", async (req, res) => {
 	try {
 		const response = await axios.post(
@@ -45,10 +46,12 @@ app.post("/process-data", async (req, res) => {
 	}
 });
 
+//End point to test if outer container service is exposed for public or not.
 app.post("/test", (req, res) => {
 	return res.status(200).json({ message: "Hello World" });
 });
 
+//End point to store the request parameter as file contents
 app.post("/store-file", (req, res) => {
 	const { file, data } = req.body;
 
@@ -67,7 +70,8 @@ app.post("/store-file", (req, res) => {
 		return res.status(200).json({ file, message: "Success." });
 	});
 });
-
+//Modified for demo
+//End point to calculate the product sum by passing request to processor container app service
 app.post("/calculate", async (req, res) => {
 	const { file, product } = req.body;
 
