@@ -54,10 +54,15 @@ app.post("/calculate", async (req, res) => {
 
 	try {
 		const response = await axios.post(
-			`http://processorcontainer:7000/calculate-sum`,
+			`http://processorcontainer-service:7000/calculate-sum`,
 			{
 				file,
 				product,
+			},
+			{
+				headers: {
+					"Content-Type": "application/json",
+				},
 			}
 		);
 
