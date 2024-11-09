@@ -13,6 +13,44 @@ if (!fs.existsSync(STORAGE_PATH)) {
 	fs.mkdirSync(STORAGE_PATH);
 }
 
+app.post("/process-data", async (req, res) => {
+	try {
+		const response = await axios.post(
+			`http://processorcontainer:7000/calculate-sum`,
+			req.body,
+			{
+				headers: {
+					"Content-Type": "application/json",
+				},
+			}
+		);
+
+		if (response.status === 200) {
+			res
+				.status(200)
+				.json({
+					message: "Request reached Container 2 successfully",
+					data: response.data,
+				});
+		} else {
+			res
+				.status(500)
+				.json({
+					error: "Failed to reach Container 2",
+					message: "Error in communication with Container 2",
+				});
+		}
+	} catch (error) {
+		console.error("Error calling Container 2:", error.message);
+		res
+			.status(500)
+			.json({
+				error: "Error reached only Container 1",
+				message: "Could not reach Container 2",
+			});
+	}
+});
+
 //modified
 app.post("/test", (req, res) => {
 	return res.status(200).json({ message: "Hello World" });
@@ -54,7 +92,7 @@ app.post("/calculate", async (req, res) => {
 
 	try {
 		const response = await axios.post(
-			`http://processorcontainer-service:7000/calculate-sum`,
+			`http://processorcontainer:7000/calculate-sum`,
 			{
 				file,
 				product,
